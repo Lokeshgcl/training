@@ -8,6 +8,8 @@
 </head>
 <body>
 	<h1>Admin home page</h1>
-	<input type="button" value="Add Training" name="CreateCourse" />
+	<form action="admin" method="post">		
+		<input type="submit" value="Add Training" />
+	</form>
 </body>
 </html>

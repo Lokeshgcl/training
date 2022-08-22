@@ -5,7 +5,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class H2Config {
+public class DBConfig {
 
 	public static final String jdbcURL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 	static {

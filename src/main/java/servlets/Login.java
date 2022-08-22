@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import config.DBConfig;
 import config.H2Config;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -40,41 +41,45 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("login post invoked");
-		RequestDispatcher req = null;
-		try {
+		response.sendRedirect("admin");
+		System.out.println("I am after send redirect");
+//		RequestDispatcher req = request.getRequestDispatcher("jsps/admin.jsp");
+//		req.include(request, response);
+//		try {
+//			
 			
-		
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		Connection connection = H2Config.getConnection();
-		
-		 String query = "SELECT * FROM Users WHERE name = ? and password = ?";
-	      //Creating the PreparedStatement object
-	      PreparedStatement pstmt = connection.prepareStatement(query);
-	      pstmt.setString(1, username);
-	      pstmt.setString(2, password);
-	      ResultSet rs = pstmt.executeQuery();
-	      
-	      if(rs.next()) {
-	         
-	    	 System.out.print("Name: "+rs.getString("name")+", ");
-	         System.out.print("Password: "+rs.getString("password")+", ");
-	         System.out.print("type: "+rs.getString("type"));
-	         System.out.println();
-	         
-	         if(rs.getString("type").equals("A")) {
-	        	 req = request.getRequestDispatcher("jsps/admin.jsp");    	 
-	         }else {
-	        	 req = request.getRequestDispatcher("jsps/employee.jsp");
-	         }
-	    
-	         req.include(request, response);
-	      }else {
-	    	  //error page here
-	      }
-		} catch (SQLException e) {
-			throw new IOException(e.getMessage());
-		}
+			
+//		String username = request.getParameter("username");
+//		String password = request.getParameter("password");
+//		Connection connection = DBConfig.getConnection();
+//		
+//		 String query = "SELECT * FROM Users WHERE name = ? and password = ?";
+//	      //Creating the PreparedStatement object
+//	      PreparedStatement pstmt = connection.prepareStatement(query);
+//	      pstmt.setString(1, username);
+//	      pstmt.setString(2, password);
+//	      ResultSet rs = pstmt.executeQuery();
+//	      
+//	      if(rs.next()) {
+//	         
+//	    	 System.out.print("Name: "+rs.getString("name")+", ");
+//	         System.out.print("Password: "+rs.getString("password")+", ");
+//	         System.out.print("type: "+rs.getString("type"));
+//	         System.out.println();
+//	         
+//	         if(rs.getString("type").equals("A")) {
+//	        	 req = request.getRequestDispatcher("jsps/admin.jsp");    	 
+//	         }else {
+//	        	 req = request.getRequestDispatcher("jsps/employee.jsp");
+//	         }
+//	    
+//	         req.include(request, response);
+//	      }else {
+//	    	  //error page here
+//	      }
+//		} catch (SQLException e) {
+//			throw new IOException(e.getMessage());
+//		}
 	}
 
 }
