@@ -5,10 +5,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Training</title>
+<script type="text/javascript">
+
+function validateLogin(){
+	if (!document.loginForm.username.value) {
+		document.getElementsByClassName("errorMessage")[0].innerText = "username cannot be empty!"
+		return false;
+	}else if(!document.loginForm.password.value) {
+		document.getElementsByClassName("errorMessage")[0].innerText = "password cannot be empty!"
+			return false;
+		}
+	return true;
+}
+</script>
+<style type="text/css">
+.errorMessage {
+	color: red;
+}
+</style>
 </head>
 <body>
 	<h1>Login</h1>
-	<form action="login" method="post">
+	<h3 class="errorMessage"></h3>
+	<form name="loginForm" action="login" method="post" onsubmit="return validateLogin()">
 		<table style="with: 50%">
 			<tr>
 				<td>UserName</td>

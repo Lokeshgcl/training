@@ -20,66 +20,64 @@ import jakarta.servlet.http.HttpServletResponse;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * Default constructor. 
-     */
-    public Login() {
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Default constructor.
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	public Login() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher req = request.getRequestDispatcher("index.jsp");
+		req.include(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		System.out.println("login post invoked");
-		response.sendRedirect("admin");
-		System.out.println("I am after send redirect");
-//		RequestDispatcher req = request.getRequestDispatcher("jsps/admin.jsp");
-//		req.include(request, response);
-//		try {
-//			
-			
-			
-//		String username = request.getParameter("username");
-//		String password = request.getParameter("password");
-//		Connection connection = DBConfig.getConnection();
-//		
-//		 String query = "SELECT * FROM Users WHERE name = ? and password = ?";
-//	      //Creating the PreparedStatement object
-//	      PreparedStatement pstmt = connection.prepareStatement(query);
-//	      pstmt.setString(1, username);
-//	      pstmt.setString(2, password);
-//	      ResultSet rs = pstmt.executeQuery();
-//	      
-//	      if(rs.next()) {
-//	         
-//	    	 System.out.print("Name: "+rs.getString("name")+", ");
-//	         System.out.print("Password: "+rs.getString("password")+", ");
-//	         System.out.print("type: "+rs.getString("type"));
-//	         System.out.println();
-//	         
-//	         if(rs.getString("type").equals("A")) {
-//	        	 req = request.getRequestDispatcher("jsps/admin.jsp");    	 
-//	         }else {
-//	        	 req = request.getRequestDispatcher("jsps/employee.jsp");
-//	         }
-//	    
-//	         req.include(request, response);
-//	      }else {
-//	    	  //error page here
-//	      }
-//		} catch (SQLException e) {
-//			throw new IOException(e.getMessage());
-//		}
+		RequestDispatcher req = null;
+		try {
+
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			Connection connection = DBConfig.getConnection();
+
+			String query = "SELECT * FROM Users WHERE name = ? and password = ?";
+			PreparedStatement pstmt = connection.prepareStatement(query);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				System.out.print("Name: " + rs.getString("name") + ", ");
+				System.out.print("Password: " + rs.getString("password") + ", ");
+				System.out.print("type: " + rs.getString("type"));
+				System.out.println();
+
+				if (rs.getString("type").equals("A")) {
+					response.sendRedirect("admin");
+					System.out.println("I am after send redirect");
+				} else {
+					req = request.getRequestDispatcher("jsps/employee.jsp");
+					req.include(request, response);
+				}
+			} else {
+				req = request.getRequestDispatcher("jsps/error.jsp");
+				req.include(request, response);
+			}
+		} catch (SQLException e) {
+			throw new IOException(e.getMessage());
+		}
 	}
 
 }
