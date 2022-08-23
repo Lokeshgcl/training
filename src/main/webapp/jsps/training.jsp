@@ -88,10 +88,12 @@
 	<script>
 		$(function() {
 			$("#startDate").datepicker({
-				dateFormat : 'yy-mm-dd'
+				dateFormat : 'yy-mm-dd',
+				minDate: '+0d'
 			});
 			$("#endDate").datepicker({
-				dateFormat : 'yy-mm-dd'
+				dateFormat : 'yy-mm-dd',
+				minDate: new Date()
 			});
 		});
 	</script>
