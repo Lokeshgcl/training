@@ -22,9 +22,15 @@ function validateLogin(){
 .errorMessage {
 	color: red;
 }
+
+.tbody {
+	max-width: max-content;
+	margin: auto;
+}
+
 </style>
 </head>
-<body>
+<body class="tbody">
 	<h1>Login</h1>
 	<h3 class="errorMessage"></h3>
 	<form name="loginForm" action="login" method="post" onsubmit="return validateLogin()">
@@ -38,6 +44,7 @@ function validateLogin(){
 				<td><input type="password" name="password" /></td>
 			</tr>
 		</table>
+		<br>
 		<input type="submit" value="Submit" />
 	</form>
 </body>

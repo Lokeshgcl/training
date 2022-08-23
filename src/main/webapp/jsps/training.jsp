@@ -9,10 +9,53 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src=https://code.jquery.com/jquery-1.12.4.js></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+	function validateTraining() {
+		if (!document.trainingForm.trainingName.value) {
+			document.getElementsByClassName("errorMessage")[0].innerText = "Training Name cannot be empty!"
+			return false;
+		} else if (!document.trainingForm.startDate.value) {
+			document.getElementsByClassName("errorMessage")[0].innerText = "Start Date cannot be empty!"
+			return false;
+		} else if (!document.trainingForm.endDate.value) {
+			document.getElementsByClassName("errorMessage")[0].innerText = "End Date cannot be empty!"
+			return false;
+		} else if (!document.trainingForm.trainingMode.value) {
+			document.getElementsByClassName("errorMessage")[0].innerText = "Training Mode cannot be empty!"
+			return false;
+		} else if (!document.trainingForm.businisessUnit.value) {
+			document.getElementsByClassName("errorMessage")[0].innerText = "Businisess Unit cannot be empty!"
+			return false;
+		} else if (!document.trainingForm.contactPersonId.value) {
+			document.getElementsByClassName("errorMessage")[0].innerText = "Contact PersonId cannot be empty!"
+			return false;
+		} else if (document.trainingForm.endDate.value < document.trainingForm.startDate.value) {
+			document.getElementsByClassName("errorMessage")[0].innerText = "End Date cannot be less than Start Date!"
+			return false;
+		}
+		return true;
+	}
+</script>
+
+
+<style type="text/css">
+.tbody {
+	max-width: max-content;
+	margin: auto;
+}
+
+.errorMessage {
+	color: red;
+}
+</style>
 </head>
-<body>
+<body class="tbody">
 	<h1>Add Tarining</h1>
-	<form action="training" method="post">
+	<h3 class="errorMessage"></h3>
+	<form action="training" name="trainingForm" method="post"
+		onsubmit="return validateTraining()">
+		<input type="hidden" name="actionType" value="AddTraining" />
 		<table style="with: 50%">
 			<tr>
 				<td>Training Name</td>
@@ -43,9 +86,13 @@
 	</form>
 
 	<script>
-		$(function() {			
-			$("#startDate").datepicker({dateFormat: 'yy-mm-dd'});
-			$("#endDate").datepicker({dateFormat: 'yy-mm-dd'});
+		$(function() {
+			$("#startDate").datepicker({
+				dateFormat : 'yy-mm-dd'
+			});
+			$("#endDate").datepicker({
+				dateFormat : 'yy-mm-dd'
+			});
 		});
 	</script>
 </body>

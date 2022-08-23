@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import config.DBConfig;
+import dao.TrainingDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.TrainingModel;
 
 /**
  * Servlet implementation class Training
@@ -43,40 +45,25 @@ public class Training extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		try {
 		System.out.println("inside training post");
-		
-		System.out.println("start date is " + request.getParameter("startDate"));
-		
-		String trainingName = request.getParameter("TrainingName");
-		String trainingMode = request.getParameter("trainingMode");
-		Date startDate = Date.valueOf(request.getParameter("startDate"));
-		Date endDate = Date.valueOf(request.getParameter("endDate"));
-		String contactPersonId = request.getParameter("contactPersonId");
-		String businisessUnit = request.getParameter("businisessUnit");
-		
-		Connection connection = DBConfig.getConnection();
-		String insertTraining = "Insert into Training (TrainingName, StartDate, EndDate, TrainingMode , BusinisessUnit , ContactPersonID) "
-				+ "values (?,?,?,?,?,?)";
+		String actionType = request.getParameter("actionType");
 
-		 PreparedStatement	pstmt = connection.prepareStatement(insertTraining);
-			pstmt.setString(1, trainingName);
-			pstmt.setDate(2, startDate);
-			pstmt.setDate(3, endDate);
-			pstmt.setString(4, trainingMode);
-			pstmt.setString(5, businisessUnit);
-			pstmt.setString(6, contactPersonId);
-			int rows = pstmt.executeUpdate();
+		if (actionType.equals("AddTraining")) {
+			TrainingModel training = new TrainingModel(request.getParameter("trainingName"),
+					Date.valueOf(request.getParameter("startDate")), Date.valueOf(request.getParameter("endDate")),
+					request.getParameter("trainingMode"), request.getParameter("businisessUnit"),
+					request.getParameter("contactPersonId"));
+
+			TrainingDAO.addTraining(training);
 			
-			if (rows > 0) {
-				System.out.println("inserting Training succeded");
-				response.sendRedirect("admin");
-			}
-		} catch (SQLException e) {
-			System.out.println("error inserting Training");
-			throw new ServletException(e.getMessage());
+			
+		} else if (actionType.equals("DeleteTraining")) {
+			System.out.println("delete trainings called");
+			String s[] = request.getParameterValues("trainingCheckBox");
+			
+			TrainingDAO.deleteTrainings(s);
 		}
+		response.sendRedirect("admin");
 	}
 
 	/**
@@ -92,7 +79,9 @@ public class Training extends HttpServlet {
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		String s[] = request.getParameterValues("trainingCheckBox");
+
 	}
 
 }
